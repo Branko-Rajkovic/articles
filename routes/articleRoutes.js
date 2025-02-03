@@ -7,10 +7,11 @@ const {
   updateArticle,
   deleteArticle,
 } = require('../controllers/articleController');
+const { protect } = require('../controllers/authControler');
 
 const router = express.Router();
 
-router.route('/').get(getAllArticles).post(createArticle);
+router.route('/').get(protect, getAllArticles).post(createArticle);
 router.route('/:id').get(getArticle).patch(updateArticle).delete(deleteArticle);
 
 module.exports = router;

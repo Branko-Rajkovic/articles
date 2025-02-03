@@ -1,12 +1,19 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const articleSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, 'An article must have a title'],
+    trim: true,
+    unique: true,
+    maxLength: [400, 'Title can have maximum 400 characters.'],
   },
-  summary: { type: String },
-  contentTopics: { type: [String] },
+  slug: String,
+  summary: { type: String, trim: true },
+  contentTopics: {
+    type: [String],
+  },
   paragraphs: { type: [String] },
   lists: { type: [String] },
   images: { type: [String] },
@@ -20,6 +27,11 @@ const articleSchema = new mongoose.Schema({
   },
   ratingsAverage: { type: Number, default: 0 },
   ratingsVotes: { type: Number, default: 0 },
+});
+
+articleSchema.pre('save', function (next) {
+  this.slug = slugify(this.title, { lower: true });
+  next();
 });
 
 const Article = mongoose.model('Article', articleSchema);

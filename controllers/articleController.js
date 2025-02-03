@@ -1,12 +1,12 @@
+const ErrorObject = require('../Errors/ErrorObject');
 const Article = require('./../models/articleModel');
 const {
   filterObjectByKeys,
   filterForMongoQuery,
 } = require('./../utils/helpers');
 
-exports.getAllArticles = async (req, res) => {
+exports.getAllArticles = async (req, res, next) => {
   try {
-    console.log(req.query);
     const requestQuery = filterObjectByKeys(
       req.query,
       Object.keys(Article.schema.tree)
@@ -24,14 +24,12 @@ exports.getAllArticles = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: 'invalid data sent',
-    });
+    const message = err.message || 'No article found.';
+    next(new ErrorObject(message, 404));
   }
 };
 
-exports.getArticle = async (req, res) => {
+exports.getArticle = async (req, res, next) => {
   try {
     const article = await Article.findById(req.params.id);
     res.status(200).json({
@@ -41,14 +39,12 @@ exports.getArticle = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: 'invalid data sent',
-    });
+    const message = err.message || 'No article found.';
+    next(new ErrorObject(message, 404));
   }
 };
 
-exports.createArticle = async (req, res) => {
+exports.createArticle = async (req, res, next) => {
   try {
     const newArticle = await Article.create(req.body);
     res.status(201).json({
@@ -58,14 +54,12 @@ exports.createArticle = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: 'invalid data sent',
-    });
+    const message = err.message || 'No article found.';
+    next(new ErrorObject(message, 404));
   }
 };
 
-exports.updateArticle = async (req, res) => {
+exports.updateArticle = async (req, res, next) => {
   try {
     const article = await Article.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -78,14 +72,12 @@ exports.updateArticle = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: 'invalid data sent',
-    });
+    const message = err.message || 'No article found.';
+    next(new ErrorObject(message, 404));
   }
 };
 
-exports.deleteArticle = async (req, res) => {
+exports.deleteArticle = async (req, res, next) => {
   try {
     await Article.findByIdAndDelete(req.params.id);
     res.status(204).json({
@@ -93,9 +85,7 @@ exports.deleteArticle = async (req, res) => {
       data: null,
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: 'invalid data sent',
-    });
+    const message = err.message || 'No article found.';
+    next(new ErrorObject(message, 404));
   }
 };
