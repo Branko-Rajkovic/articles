@@ -13,7 +13,8 @@ export default [
       },
     },
     rules: {
-      'no-unused-vars': 'warn',
+      'no-unused-vars': ['warn', { varsIgnorePattern: 'next' }],
+      argsIgnorePattern: 'next',
       semi: ['error', 'always'],
       quotes: ['error', 'single'],
       indent: ['error', 2],
