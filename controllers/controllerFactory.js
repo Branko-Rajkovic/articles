@@ -57,6 +57,7 @@ exports.getOne = async (Model, req, res, next) => {
 
 exports.createOne = async (Model, req, res, next) => {
   try {
+    console.log('user', req.user);
     //nested routes for Review
     if (Model.collection.collectionName === 'reviews') {
       if (!req.body.aboutArticle) req.body.aboutArticle = req.params.articleId;
@@ -105,19 +106,10 @@ exports.updateOne = async (Model, req, res, next) => {
 
 exports.deactivateOne = async (Model, req, res, next) => {
   try {
-    // const searchField =
-    //   Model.collection.collectionName === 'users'
-    //     ? { _id: req.user.id }
-    //     : Model.collection.collectionName === 'reviews'
-    //     ? { _id: req.review.id }
-    //     : Model.collection.collectionName === 'articles'
-    //     ? { _id: req.article.id }
-    //     : {};
-
-    // if (!searchField)
-    //   return next(new ErrorObject('No info about document.', 400));
-
-    const doc = await Model.findOneAndUpdate(req.params.id, { active: false });
+    const doc = await Model.findOneAndUpdate(
+      { _id: req.params.id },
+      { active: false }
+    );
     res.status(204).json({
       status: 'succes',
       data: {
@@ -132,7 +124,7 @@ exports.deactivateOne = async (Model, req, res, next) => {
 
 exports.deleteOne = async (Model, req, res, next) => {
   try {
-    const doc = await Model.findByIdAndDelete(req.params.id);
+    const doc = await Model.findOneAndDelete({ _id: req.params.id });
     if (!doc) return next(new ErrorObject('No document found', 404));
 
     res.status(204).json({

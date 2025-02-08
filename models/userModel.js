@@ -85,7 +85,6 @@ userSchema.methods.correctPassword = async function (
 };
 
 userSchema.methods.updatedAccount = function (JWTTimestamp) {
-  //console.log(this?.updatedAt.getTime(), JWTTimestamp);
   if (
     this.updatedAt &&
     parseInt(this.updatedAt.getTime() / 1000) > JWTTimestamp

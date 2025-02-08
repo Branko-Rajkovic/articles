@@ -52,9 +52,7 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    console.log(req.body);
     const { email, password } = req.body;
-    console.log(email);
 
     if (!email || !password) {
       return next(new ErrorObject('Please provide email and password', 400));
@@ -95,7 +93,7 @@ exports.protect = async (req, res, next) => {
         new ErrorObject('Password changed. Please log in again.', 401)
       );
     req.user = user;
-    console.log('in protect', user);
+
     next();
   } catch (err) {
     const message = err.message || 'Please log in.';
@@ -105,7 +103,6 @@ exports.protect = async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    console.log(req.user);
     if (roles.includes(req.user.role)) {
       return next();
     }
@@ -132,8 +129,6 @@ exports.forgotPassword = async (req, res, next) => {
       subject: 'Your password reset token (valid 10 min)',
       message,
     });
-
-    console.log(resetToken);
 
     res.status(200).json({
       status: 'succes',

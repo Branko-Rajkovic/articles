@@ -36,6 +36,9 @@ const articleSchema = new mongoose.Schema(
   }
 );
 
+articleSchema.index({ ratingsAverage: -1 });
+articleSchema.index({ slug: 1 });
+
 articleSchema.pre('save', function (next) {
   this.slug = slugify(this.title, { lower: true });
   next();

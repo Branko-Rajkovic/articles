@@ -8,6 +8,7 @@ const {
   deleteUser,
   updateMe,
   deleteMe,
+  getMe,
 } = require('../controllers/userController');
 const {
   signup,
@@ -24,6 +25,14 @@ const router = express.Router();
 
 router.post('/signup', signup);
 router.post('/login', login);
+
+router.get(
+  '/me',
+  protect,
+  restrictTo('user', 'admin', 'superadmin'),
+  getMe,
+  getUser
+);
 
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPasword);
