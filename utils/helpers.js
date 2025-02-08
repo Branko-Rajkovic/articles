@@ -26,3 +26,12 @@ exports.filterForMongoQuery = (requestQuery) => {
   );
   return JSON.parse(searchQuery);
 };
+
+exports.getUpdatedFields = (userInput, ...fields) => {
+  if (!fields) return userInput;
+  const updates = {};
+  Object.keys(userInput).forEach((element) => {
+    if (fields.includes(element)) updates[element] = userInput[element];
+  });
+  return updates;
+};

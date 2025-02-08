@@ -7,6 +7,7 @@ const hpp = require('hpp');
 const ErrorObject = require('./Errors/ErrorObject');
 const articlesRouter = require('./routes/articleRoutes');
 const usersRouter = require('./routes/userRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 const globalErrors = require('./Errors/errorHandlers');
 
 const app = express();
@@ -32,6 +33,8 @@ app.use(hpp());
 
 app.use('/api/v1/articles', articlesRouter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/reviews', reviewRouter);
+
 app.all('*', (req, res, next) => {
   next(new ErrorObject(`404. Can't find this page ${req.originalUrl}`, 404));
 });

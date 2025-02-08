@@ -95,6 +95,7 @@ exports.protect = async (req, res, next) => {
         new ErrorObject('Password changed. Please log in again.', 401)
       );
     req.user = user;
+    console.log('in protect', user);
     next();
   } catch (err) {
     const message = err.message || 'Please log in.';
