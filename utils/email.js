@@ -23,8 +23,8 @@ module.exports = class Email {
       port: process.env.BREVO_PORT,
       secure: false, // true for 465, false for other ports
       auth: {
-        user: '855335001@smtp-brevo.com', // generated ethereal user
-        pass: 'wRqs7ny8Gc9gJ4bv', // generated ethereal password
+        user: process.env.BREVO_LOGIN, // generated ethereal user
+        pass: process.env.BREVO_PASSWORD, // generated ethereal password
       },
     });
   }
