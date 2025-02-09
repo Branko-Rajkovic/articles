@@ -1,8 +1,10 @@
 const nodemailer = require('nodemailer');
+const pug = require('pug');
 
 module.exports = class Email {
   constructor(user, url) {
-    (this.to = user.email), (this.firstName = user.name.split(' ')[0]);
+    this.to = user.email;
+    this.firstName = user.name.split(' ')[0];
     this.url = url;
     this.from = `${process.env.EMAIL_FROM}`;
   }
@@ -10,11 +12,11 @@ module.exports = class Email {
   makeTransport() {
     if (process.env.NODE_ENV === 'development') {
       return nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+        host: process.env.MAILTRAP_HOST,
+        port: process.env.MAILTRAP_PORT,
         auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD,
+          user: process.env.MAILTRAP_USERNAME,
+          pass: process.env.MAILTRAP_PASSWORD,
         },
       });
     }
@@ -30,7 +32,11 @@ module.exports = class Email {
   }
 
   async send(template, subject) {
-    const html = '<h2>Welcome</h2>';
+    const html = pug.renderFile(`${__dirname}/${template}.pug`, {
+      firstName: this.firstName,
+      url: this.url,
+      subject,
+    });
 
     const mailOptions = {
       from: this.from,

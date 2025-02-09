@@ -4,6 +4,8 @@ const dbConnect = require('./dbConnect');
 
 dotenv.config();
 
+console.log(process.env.NODE_ENV);
+
 const connectionString = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
