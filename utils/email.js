@@ -1,24 +1,53 @@
 const nodemailer = require('nodemailer');
-//create transporter
-const sendEmail = async (options) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-  //defaine email options
-  const mailOptions = {
-    from: 'Branko <home.branko@gmail.com',
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
 
-  //send the email
-  await transporter.sendMail(mailOptions);
+module.exports = class Email {
+  constructor(user, url) {
+    (this.to = user.email), (this.firstName = user.name.split(' ')[0]);
+    this.url = url;
+    this.from = `${process.env.EMAIL_FROM}`;
+  }
+
+  makeTransport() {
+    if (process.env.NODE_ENV === 'development') {
+      return nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        auth: {
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+    }
+    return nodemailer.createTransport({
+      host: process.env.BREVO_HOST,
+      port: process.env.BREVO_PORT,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: '855335001@smtp-brevo.com', // generated ethereal user
+        pass: 'wRqs7ny8Gc9gJ4bv', // generated ethereal password
+      },
+    });
+  }
+
+  async send(template, subject) {
+    const html = '<h2>Welcome</h2>';
+
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      html,
+      text: 'Welcome',
+    };
+
+    await this.makeTransport().sendMail(mailOptions);
+  }
+
+  async sendWelcome() {
+    await this.send('welcome', 'welcome to the Website');
+  }
+
+  async sendPasswordReset() {
+    await this.send('passwordReset', 'Your reset token (valid 10 minutes)');
+  }
 };
-
-module.exports = sendEmail;
