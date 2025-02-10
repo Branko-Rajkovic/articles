@@ -1,7 +1,3 @@
-Based on the content of the provided files, here is a README.md file for your project:
-
----
-
 ````markdown
 # Articles Management System
 
@@ -10,18 +6,8 @@ This project is a content management system for creating, storing, and managing 
 ## Features
 
 - **Article Management:** Create, read, update, and delete articles with fields such as title, content, topics, and media.
-- **Slug Generation:** Automatically generate URL-friendly slugs for articles based on their titles.
 - **User Authentication:** Secure user management system with password hashing and email validation.
 - **Role-Based Access:** User roles (admin, user, superadmin) to control access to features.
-
-## Technologies Used
-
-- **Node.js** and **Express.js** for backend development
-- **MongoDB** with **Mongoose** for database management
-- **bcrypt.js** for secure password hashing
-- **slugify** for generating URL-friendly slugs
-- **crypto** for secure token generation
-- **validator** for input validation
 
 ## Installation
 
@@ -41,20 +27,83 @@ This project is a content management system for creating, storing, and managing 
 3. Create an environment file `.env` and configure the necessary variables with your values:
 
    ```env
-    NODE_ENV=development
-    PORT=3000
-    DATABASE_PASSWORD=xxxxxxxxxxxxx
-    DATABASE=xxxxxxxxxxx(database connection string)
-    JWT_SECRET=xxxxxxxxxxxxxxxxx
-    JWT_EXPIRES_IN=90
-    JWT_COOKIE_EXPIRES=90
-    EMAIL_USERNAME=xxxxxxxxxxxxx
-    EMAIL_PASSWORD=xxxxxxxxxxxxxx
-    EMAIL_HOST=xxxxxxxxxxxxxxx
-    EMAIL_PORT=xxxxxxxxxxxxx
+      NODE_ENV=development
+      PORT=<port>
+      DATABASE_PASSWORD=<your databse password>
+      DATABASE=<your database connection string>
+      JWT_SECRET=<it should be at elaset 32 characters long>
+      JWT_EXPIRES_IN=90
+      JWT_COOKIE_EXPIRES=90
+      MAILTRAP_USERNAME=<username of your Mailtrap test account>
+      MAILTRAP_PASSWORD=<password of your Mailtrap test account>
+      MAILTRAP_HOST=<Mailtrap host>
+      MAILTRAP_PORT=<Mailtrap port>
+      EMAIL_FROM=<your email address - to be shown in your automatic emails>
+      BREVO_HOST=<Brevo host>
+      BREVO_LOGIN=<Your Brevo login>
+      BREVO_PASSWORD=<Your Brevo password>
    ```
 
-4. Run the application:
+   Environment Variables Explained
+   NODE_ENV=development
+   Specifies the environment the Node.js application is running in. To run the application in production, run in terminal: npm run start:prod
+
+PORT=<port>
+Specifies the port number on which the application will run.
+
+DATABASE_PASSWORD=<your database password>
+Stores the password to connect to your database securely.
+
+DATABASE=<your database connection string>
+Contains the full connection string for your database, including host, port, and database name. This tutorial guides you through creating an Atlas cluster, connecting to it : https://www.mongodb.com/docs/atlas/getting-started/
+
+JWT_SECRET=<it should be at least 32 characters long>
+A secure secret key used to sign and verify JSON Web Tokens (JWTs). It must be long and complex to maintain security.
+
+JWT_EXPIRES_IN=90
+Specifies the expiration period. It is converted in authController.js in days : prosess.env.JWT_EXPIRES_IN _ 24 _ 60 _ 60 _ 1000
+
+JWT_COOKIE_EXPIRES=90
+Specifies the expiration period for JWT cookies (in days).
+
+/////////////////////////////////////////////////
+Sign up for a Mailtrap account and create a new inbox.
+Retrieve your SMTP credentials from the Mailtrap inbox settings.
+/////////////////////////////////////////////////
+MAILTRAP_USERNAME=<username of your Mailtrap test account>
+The username for your Mailtrap account. Mailtrap is used to test email functionality in development environments.
+
+MAILTRAP_PASSWORD=<password of your Mailtrap test account>
+The password for the Mailtrap SMTP.
+
+MAILTRAP_HOST=<Mailtrap host>
+The Mailtrap server host in your SMTP credentials.
+
+MAILTRAP_PORT=<Mailtrap port>
+The port number for connecting to the Mailtrap service in your SMTP credentials.
+
+EMAIL_FROM=<your email address - to be shown in your automatic emails>
+Defines the sender's email address for automatic emails from the application.
+
+BREVO_HOST=<Brevo host>
+The host address for Brevo (formerly Sendinblue), a transactional email service.
+
+/////////////////////////////////////////////////
+Create an account for Brevo.
+Log in to your account
+Click on your Profile and go to “SMTP & API”
+/////////////////////////////////////////////////
+BREVO_LOGIN=<Your Brevo login>
+The login username in SMPT section.
+
+BREVO_PASSWORD=<Your Brevo password>
+The Master password in SMPT section.
+
+4. Run the application from terminal in development environment:
+   ```bash
+   npm start
+   ```
+   Run the application in production environment:
    ```bash
    npm start
    ```
