@@ -86,11 +86,11 @@ exports.updateOne = async (Model, req, res, next) => {
       );
     }
 
-    const updates =
-      Model.collection.collectionName === 'users'
-        ? getUpdatedFields(req.body, 'name', 'email')
-        : req.body;
+    const updates = req.body;
+    if (req.file) updates.photo = req.file.filename;
+    if (!req.params.id && req.user) req.params.id = req.user._id;
 
+    console.log(updates);
     const doc = await Model.findByIdAndUpdate(req.params.id, updates, {
       new: true,
       runValidators: true,

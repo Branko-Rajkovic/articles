@@ -6,6 +6,8 @@ const {
   createArticle,
   updateArticle,
   deleteArticle,
+  uploadArticleImages,
+  resizeArticleImages,
 } = require('../controllers/articleController');
 const { protect, restrictTo } = require('../controllers/authControler');
 const reviewRouter = require('./reviewRoutes');
@@ -18,7 +20,7 @@ router.route('/').get(getAllArticles).post(createArticle);
 router
   .route('/:id')
   .get(getArticle)
-  .patch(updateArticle)
+  .patch(uploadArticleImages, resizeArticleImages, updateArticle)
   .delete(protect, restrictTo('admin', 'superadmin'), deleteArticle);
 
 module.exports = router;

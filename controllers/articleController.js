@@ -1,5 +1,47 @@
 const Article = require('./../models/articleModel');
 const factory = require('./controllerFactory');
+const multer = require('multer');
+const sharp = require('sharp');
+const uuid = require('uuid');
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new ErrorObject('Not an image. Please upload image.', 400), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadArticleImages = upload.array('images', 10);
+
+exports.resizeArticleImages = async (req, res, next) => {
+  if (!req.files) return next();
+
+  req.body.images = [];
+
+  await Promise.all(
+    req.files.map(async (file, index) => {
+      const filename = `article-image-${index + 1}---${uuid.v4()}.png`;
+
+      await sharp(file.buffer)
+        .resize(400)
+        .toFormat('png')
+        .png({ quality: 90 })
+        .toFile(`assets/images/articles/${filename}`);
+
+      req.body.images.push(filename);
+    })
+  );
+
+  next();
+};
 
 exports.getAllArticles = (req, res, next) =>
   factory.getAll(Article, req, res, next);

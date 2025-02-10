@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     maxLength: [200, 'Email can have maximum 200 characters.'],
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
-  photo: { type: String, default: '' },
+  photo: { type: String, default: 'user-default-avatar.png' },
   role: {
     type: String,
     enum: ['user', 'admin', 'superadmin'],
