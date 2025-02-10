@@ -57,7 +57,6 @@ exports.getOne = async (Model, req, res, next) => {
 
 exports.createOne = async (Model, req, res, next) => {
   try {
-    console.log('user', req.user);
     //nested routes for Review
     if (Model.collection.collectionName === 'reviews') {
       if (!req.body.aboutArticle) req.body.aboutArticle = req.params.articleId;
@@ -90,7 +89,6 @@ exports.updateOne = async (Model, req, res, next) => {
     if (req.file) updates.photo = req.file.filename;
     if (!req.params.id && req.user) req.params.id = req.user._id;
 
-    console.log(updates);
     const doc = await Model.findByIdAndUpdate(req.params.id, updates, {
       new: true,
       runValidators: true,

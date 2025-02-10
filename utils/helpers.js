@@ -26,14 +26,3 @@ exports.filterForMongoQuery = (requestQuery) => {
   );
   return JSON.parse(searchQuery);
 };
-
-// exports.getUpdatedFields = (req, ...fields) => {
-//   if (!fields || !req.file) return req.body;
-//   const updates = {};
-//   Object.keys(req.body).forEach((element) => {
-//     if (fields.includes(element)) updates[element] = req.body[element];
-//   });
-//   if (req.file) updates.photo = req.file.filename;
-//   console.log(req.file);
-//   return updates;
-// };
