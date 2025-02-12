@@ -26,23 +26,18 @@ const router = express.Router();
 
 router.post('/signup', signup);
 router.post('/login', login);
-
-router.get(
-  '/me',
-  protect,
-  restrictTo('user', 'admin', 'superadmin'),
-  getMe,
-  getUser
-);
-
 router.post('/forgot-password', forgotPassword);
 router.patch('/reset-password/:token', resetPasword);
 
-router.patch('/update-password', protect, updatePassword);
+//Must be logged in
+router.use(protect);
+router.get('/me', getMe, getUser);
+router.patch('/update-password', updatePassword);
+router.patch('/update-me', uploadUserPhoto, resizeUserPhoto, updateMe);
+router.delete('/delete-me', deleteMe);
 
-router.patch('/update-me', protect, uploadUserPhoto, resizeUserPhoto, updateMe);
-router.delete('/delete-me', protect, deleteMe);
-
+//only for user with role admin or superadmin
+router.use(restrictTo('admin', 'superadmin'));
 router.route('/').get(getAllUsers).post(createUser);
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 

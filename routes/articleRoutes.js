@@ -16,11 +16,20 @@ const router = express.Router();
 
 router.use('/:articleId/reviews', reviewRouter);
 
-router.route('/').get(getAllArticles).post(createArticle);
+router
+  .route('/')
+  .get(getAllArticles)
+  .post(protect, restrictTo('admin', 'superadmin'), createArticle);
 router
   .route('/:id')
   .get(getArticle)
-  .patch(uploadArticleImages, resizeArticleImages, updateArticle)
+  .patch(
+    protect,
+    restrictTo('admin', 'superadmin'),
+    uploadArticleImages,
+    resizeArticleImages,
+    updateArticle
+  )
   .delete(protect, restrictTo('admin', 'superadmin'), deleteArticle);
 
 module.exports = router;
