@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const { xss } = require('express-xss-sanitizer');
 const hpp = require('hpp');
+const cors = require('cors');
 const compression = require('compression');
 const ErrorObject = require('./Errors/ErrorObject');
 const articlesRouter = require('./routes/articleRoutes');
@@ -22,7 +23,14 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-app.use(helmet({ crossOriginResourcePolicy: false }));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    referrerPolicy: false,
+  })
+);
+
+app.use(cors());
 
 app.use(express.json({ limit: '100kb' }));
 
