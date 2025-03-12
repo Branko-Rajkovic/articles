@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const { rateLimit } = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -13,6 +14,8 @@ const reviewRouter = require('./routes/reviewRoutes');
 const globalErrors = require('./Errors/errorHandlers');
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes

@@ -34,7 +34,7 @@ exports.resizeArticleImages = async (req, res, next) => {
         .resize(400)
         .toFormat('png')
         .png({ quality: 90 })
-        .toFile(`assets/images/articles/${filename}`);
+        .toFile(`/images/articles/${filename}`);
 
       req.body.images.push(filename);
     })

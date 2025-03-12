@@ -7,16 +7,6 @@ const uuid = require('uuid');
 
 exports.getAllUsers = (req, res, next) => factory.getAll(User, req, res, next);
 
-// const multerStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'assets/images/users');
-//   },
-//   filename: (req, file, cb) => {
-//     const ext = file.mimetype.split('/')[1];
-//     cb(null, `user---${uuid.v4()}.${ext}`);
-//   },
-// });
-
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
@@ -43,7 +33,7 @@ exports.resizeUserPhoto = async (req, res, next) => {
     .resize(200, 200)
     .toFormat('png')
     .png({ quality: 90 })
-    .toFile(`assets/images/users/${req.file.filename}`);
+    .toFile(`/images/users/${req.file.filename}`);
 
   next();
 };

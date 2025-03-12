@@ -44,6 +44,8 @@ jspm_packages/
 
 # App images
 assets/images
+public/images
+/images
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
