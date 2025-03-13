@@ -281,7 +281,7 @@ Here is a description of the article-related API endpoints, including protected 
      {
        "title": "Sample Article",
        "summary": "This is a brief summary",
-       "contentTopics": ["technology", "AI"],
+       "subtitles": ["technology", "AI"],
        "paragraphs": ["Paragraph 1 content", "Paragraph 2 content"],
        "lists": ["List item 1", "List item 2"],
        "images": ["image-url-1", "image-url-2"]
@@ -310,7 +310,7 @@ Here is a description of the article-related API endpoints, including protected 
      {
        "title": "Updated Article Title",
        "summary": "Updated summary",
-       "contentTopics": ["updated", "topic"]
+       "subtitles": ["updated", "topic"]
      }
      ```
    - Response: Updated article details

@@ -12,11 +12,11 @@ const articleSchema = new mongoose.Schema(
     },
     slug: String,
     summary: { type: String, trim: true },
-    contentTopics: {
+    subtitles: {
       type: [String],
     },
     paragraphs: { type: [String] },
-    lists: { type: [String] },
+    layoutOrder: { type: Array, default: [] },
     images: { type: [String] },
     author: { type: mongoose.Schema.ObjectId, ref: 'User' },
     createdAt: {
